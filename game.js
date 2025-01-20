@@ -52,8 +52,41 @@ $(".btn").click(function(){
     userClickedPattern.push(userChosenColor);
     playSound(userChosenColor);
     console.log(userClickedPattern);
+    checkAnswer(userClickedPattern.length - 1);
 });
 
+function checkAnswer(currentLevel) {
+    // Compare the user's clicked pattern with the game pattern
+    if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+        console.log("Correct!");
 
+        // If the pattern is correct, check if it's the last step
+        if (userClickedPattern.length === gamePattern.length) {
+            // Wait 1 second before calling nextSequence()
+            setTimeout(function() {
+                userClickedPattern.length = 0; // Reset user input pattern
+                nextSequence(); // Move to the next sequence
+            }, 1000);
+        }
+    } else {
+        console.log("Wrong!");
 
+        // If the pattern is incorrect, end the game
+        playGameOver();
+    }
+}
+
+function playGameOver(){
+    $("h1").text("Game Over, Press Any Key to Restart");
+    var wrong = new Audio("/souds/wrong.mp3");
+    wrong.play();
+    startOver();
+}
+
+function startOver(){
+    level =0;
+    gamePattern.length=0;
+    startOrNo= false;
+    userClickedPattern.length=0;
+}
 //console.log(randomChosenColor);
